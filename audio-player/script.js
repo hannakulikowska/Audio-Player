@@ -7,7 +7,8 @@ const menuBtn = document.querySelector('.menu-btn'),
   currentFavorite = document.querySelector("#current-favorite"),
   playPauseBtn = document.querySelector("#playpause"),
   nextBtn = document.querySelector("#next"),
-  prevBtn = document.querySelector("#prev");
+  prevBtn = document.querySelector("#prev"),
+  shuffleBtn = document.querySelector("#shuffle");
       
 
 let playing = false,
@@ -190,41 +191,45 @@ playPauseBtn.addEventListener("click", () => {
 });
 
 
+
+
 function nextSong() {
-  // if current song is not last in playlist
-  if (currentSong < songs.length - 1) {
-    // load the next song
-    currentSong++;
-    loadSong(currentSong);
+  if (shuffle) {
+    // In shuffle mode, get a random song index
+    currentSong = getRandomSongIndex();
   } else {
-    // if its last song, then play first song
-    currentSong = 0;
+    // In normal mode, increment currentSong
+    currentSong++;
+    if (currentSong >= songs.length) {
+      // If at the end of the playlist, go back to the first song
+      currentSong = 0;
+    }
   }
+  
   loadSong(currentSong);
 
-  // after loading, if the song was playing keep it playing
-
+  // Play the song if it was playing
   if (playing) {
     audio.play();
   }
 }
 
-
 function prevSong() {
-  // if current song is not first in playlist
-  if (currentSong > 0) {
-    // load the previous song
-    currentSong--;
-    loadSong(currentSong);
+  if (shuffle) {
+    // In shuffle mode, get a random song index
+    currentSong = getRandomSongIndex();
   } else {
-  // if the first song is playing, then go to the last song
-    currentSong =  songs.length - 1;
+    // In normal mode, decrement currentSong
+    currentSong--;
+    if (currentSong < 0) {
+      // If at the beginning of the playlist, go to the last song
+      currentSong = songs.length - 1;
+    }
   }
 
   loadSong(currentSong);
 
-  // after loading, if the song was playing keep it playing
-
+  // Play the song if it was playing
   if (playing) {
     audio.play();
   }
@@ -262,5 +267,23 @@ currentFavorite.addEventListener("click", () => {
   currentFavorite.classList.toggle("active");
   addToFavorites(currentSong);
 });
+
+
+// Shuffle functionality
+
+function shuffleSongs() {
+  // if 'shuffle' is currently set to 'false', change it to 'true', or vice versa
+  shuffle = !shuffle;
+  shuffleBtn.classList.toggle("active");
+}
+
+
+shuffleBtn.addEventListener("click", shuffleSongs);
+
+
+// Function to generate a random song index
+function getRandomSongIndex() {
+  return Math.floor(Math.random() * songs.length);
+}
 
 
