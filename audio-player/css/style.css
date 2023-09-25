@@ -1,7 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 :root {
-  --primary-color: #15a6e9;
+  --primary-color: #81a4b5;
+  --second-color: #6d5133;
+  --dark-color: #1e2d25;
 }
 
 /* SCROLLBAR STYLING */
@@ -56,7 +58,7 @@ i {
 }
 
 i:hover {
-  color: #106f9b;
+  color: var(--primary-color);
 }
 
 i.active {
@@ -75,7 +77,7 @@ i.active {
 }
 
 .container.active .top i {
-  color: #111;
+  color: var(--dark-color);
 }
 
 .cover-image {
@@ -84,11 +86,12 @@ i.active {
   position: absolute;
   top: 0;
   left: 0;
-  background-image: url("../assets/jpg/img1.jpeg");
+  background-image: url("../assets/img/beat-it.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
   transform-origin: 0% 0%;
+  transition: all 0.3s ease-in-out;
 }
 
 .container.active .cover-image {
@@ -137,6 +140,7 @@ i.active {
 .list {
   width: 100%;
   border-spacing: 0px 2px;
+  transition: all 0.3s ease-in-out;
 }
 
 .list tr {
@@ -169,7 +173,7 @@ i.active {
   right: 23px;
   font-size: 14px;
   bottom: -60px;
-  transition: all 0.3s;
+  transition: all 0.3s ease-in-out;
 }
 
 .container.active .current-song-title {
@@ -182,7 +186,7 @@ i.active {
   top: 440px;
   transform: translateX(-50%);
   text-align: center;
-  transition: all 0.3s;
+  transition: all 0.3s ease-in-out;
 }
 
 .info h2 {
