@@ -9,7 +9,11 @@ const menuBtn = document.querySelector('.menu-btn'),
   nextBtn = document.querySelector("#next"),
   prevBtn = document.querySelector("#prev"),
   shuffleBtn = document.querySelector("#shuffle"),
-  repeatBtn = document.querySelector("#repeat");
+  repeatBtn = document.querySelector("#repeat"),
+  progressBar = document.querySelector(".bar"),
+  progressDot = document.querySelector(".dot"),
+  currentTimeEl = document.querySelector(".current-time"),
+  durationEl = document.querySelector(".duration");
       
 
 let playing = false,
@@ -79,7 +83,7 @@ function updatePlaylist(songs) {
 
   playlistContainer.innerHTML = "";
 
-  // use for each on songs array
+  // use for each song in the array
 
   songs.forEach((song, index) => {
     // extract data from song
@@ -109,10 +113,8 @@ function updatePlaylist(songs) {
     playlistContainer.appendChild(tr);
 
 
-    // FAVORITES
-
+    // favorites
     tr.addEventListener("click", (e) => {
-
       // add song to favorites, when clicked on heart
       if (e.target.classList.contains("fa-heart")) {
         addToFavorites(index);
@@ -127,10 +129,10 @@ function updatePlaylist(songs) {
       audio.play();
       playPauseBtn.classList.replace("fa-play", "fa-pause");
       playing = true;
-
     });
 
 
+    // duration
     const audioForDuration = new Audio(`${audioSrc}`);
     audioForDuration.addEventListener("loadedmetadata", () => {
       const duration = audioForDuration.duration;
@@ -187,6 +189,7 @@ function loadSong(num) {
 
 
 // PLAY / PAUSE FUNCTIONALITY
+
 playPauseBtn.addEventListener("click", () => {
   if (playing) {
     //pause, if already playing
@@ -203,7 +206,7 @@ playPauseBtn.addEventListener("click", () => {
 
 
 
-// PREV / NEXT FUNCTIONALITY
+// NEXT FUNCTIONALITY
 
 function nextSong() {
   if (shuffle) {
@@ -226,6 +229,9 @@ function nextSong() {
   }
 }
 
+
+// PREV FUNCTIONALITY
+
 function prevSong() {
   if (shuffle) {
     // In shuffle mode, get a random song index
@@ -241,7 +247,7 @@ function prevSong() {
 
   loadSong(currentSong);
 
-  // Play the song if it was playing
+  // Playback the song, if it was playing
   if (playing) {
     audio.play();
   }
@@ -251,6 +257,9 @@ function prevSong() {
 nextBtn.addEventListener("click", nextSong);
 prevBtn.addEventListener("click", prevSong);
 
+
+
+// FAVORITES FUNCTIONALITY
 
 function addToFavorites(index) {
   // check if it's already in favorites, then remove it
@@ -352,3 +361,42 @@ audio.addEventListener("ended", () => {
   }
 });
 
+
+// PROGRESS BAR
+
+function progress() {
+
+  // get duration and current time from audio
+  let { duration, currentTime } = audio;
+
+  // if anyone is not a number, set it to 0
+  isNaN(duration) ? (duration = 0) : duration;
+  isNaN(currentTime) ? (currentTime = 0) : currentTime;
+
+  // update time elements
+
+  currentTimeEl.innerHTML = formatTime(currentTime);
+  durationEl.innerHTML = formatTime(duration);
+
+  // automatic movement of the progress dot while a song is playing
+
+  let progressPercentage = (currentTime / duration) * 100;
+  progressDot.style.left = `${progressPercentage}%`;
+}
+
+
+// update progress on the `audio timeupdate` event
+
+audio.addEventListener("timeupdate", progress);
+
+
+// manual progress dot movement on click
+
+function setProgress(e) {
+  let width = this.clientWidth;
+  let clickX = e.offsetX;
+  let duration = audio.duration;
+  audio.currentTime = (clickX / width) * duration;
+}
+
+progressBar.addEventListener("click", setProgress);

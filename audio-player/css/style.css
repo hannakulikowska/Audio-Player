@@ -180,6 +180,52 @@ i.active {
   bottom: 10px;
 }
 
+.bar {
+  position: absolute;
+  width: 326px;
+  height: 2px;
+  top: 366px;
+  left: 20px;
+  transform-origin: 0% 0%;
+  cursor: pointer;
+  background-color: #fff;
+  transition: all 0.3s ease-in-out;
+}
+
+.container.active .bar {
+  top: 136px;
+  left: 126px;
+  color: var(--dark-color);
+  background-color: var(--dark-color);
+  transform: scale(0.689);
+}
+
+.bar .dot {
+  width: 3px;
+  height: 10px;
+  border-radius: 15px;
+  background-color: var(--primary-color);
+  position: absolute;
+  top: -4px;
+  left: 0;
+  user-select: none;
+  pointer-events: none;
+  transition: all 0.3s;
+}
+
+.bar .time {
+  width: 100%;
+  position: absolute;
+  top: 10px;
+  left: 0;
+  user-select: none;
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.3s;
+}
+
 .info {
   position: absolute;
   left: 50%;
