@@ -55,6 +55,49 @@ const songs = [
     title: "Living on My Own",
     artist: "Freddie Mercury"
   },
+  {
+    audioSrc: "assets/audio/michael-jackson_-_remember-the-time.mp3",
+    imgSrc: "assets/img/remember-the-time.jpg",
+    title: "Remember The Time",
+    artist: "Michael Jackson"
+  },
+  {
+    audioSrc: "assets/audio/michael-jackson_-_black-or-white.mp3",
+    imgSrc: "assets/img/black-or-white.jpg",
+    title: "Black or White",
+    artist: "Michael Jackson"
+  },
+  {
+    audioSrc: "assets/audio/morandy_-_colors.mp3",
+    imgSrc: "assets/img/colors.jpg",
+    title: "Colors",
+    artist: "Morandy"
+  },
+  {
+    audioSrc: "assets/audio/pitbull_-_hotel-room-service.mp3",
+    imgSrc: "assets/img/hotel-room-service.jpg",
+    title: "Hotel Room Service",
+    artist: "Pitbull"
+  },
+  {
+    audioSrc: "assets/audio/lady-gaga_-_love-game.mp3",
+    imgSrc: "assets/img/love-game.jpg",
+    title: "Love Game",
+    artist: "Lady Gaga"
+  },
+  {
+    audioSrc: "assets/audio/haddaway_-_what-is-love.mp3",
+    imgSrc: "assets/img/what-is-love.jpg",
+    title: "What Is Love",
+    artist: "Haddaway"
+  },
+  {
+    audioSrc: "assets/audio/bad-boys-blue_-_you-are-a-woman.mp3",
+    imgSrc: "assets/img/you-are-a-woman.jpg",
+    title: "You're a Woman",
+    artist: "Bad Boys Blue"
+  },
+  
 ];
 
 
