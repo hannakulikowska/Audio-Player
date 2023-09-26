@@ -5,11 +5,13 @@ const menuBtn = document.querySelector('.menu-btn'),
   coverImage = document.querySelector(".cover-image"),
   currentSongTitle = document.querySelector(".current-song-title"),
   currentFavorite = document.querySelector("#current-favorite"),
+  controls = document.querySelector(".controls"),
   playPauseBtn = document.querySelector("#playpause"),
   nextBtn = document.querySelector("#next"),
   prevBtn = document.querySelector("#prev"),
   shuffleBtn = document.querySelector("#shuffle"),
   repeatBtn = document.querySelector("#repeat"),
+  volumeIcon = document.querySelector("#volume"),
   progressBar = document.querySelector(".bar"),
   progressDot = document.querySelector(".dot"),
   currentTimeEl = document.querySelector(".current-time"),
@@ -21,10 +23,17 @@ let playing = false,
   shuffle = false,
   repeat = false,
   favorites = [],
-  audio = new Audio();
+  audio = new Audio(),
+  volumeLevel = 0; // start value
 
 
 const songs = [
+  {
+    audioSrc: "assets/audio/morandy_-_colors.mp3",
+    imgSrc: "assets/img/colors.jpg",
+    title: "Colors",
+    artist: "Morandy"
+  },
   {
     audioSrc: "assets/audio/michael-jackson_-_this-is-it.mp3",
     imgSrc: "assets/img/this-is-it.jpg",
@@ -68,12 +77,6 @@ const songs = [
     artist: "Michael Jackson"
   },
   {
-    audioSrc: "assets/audio/morandy_-_colors.mp3",
-    imgSrc: "assets/img/colors.jpg",
-    title: "Colors",
-    artist: "Morandy"
-  },
-  {
     audioSrc: "assets/audio/pitbull_-_hotel-room-service.mp3",
     imgSrc: "assets/img/hotel-room-service.jpg",
     title: "Hotel Room Service",
@@ -97,7 +100,6 @@ const songs = [
     title: "You're a Woman",
     artist: "Bad Boys Blue"
   },
-  
 ];
 
 
@@ -237,11 +239,13 @@ playPauseBtn.addEventListener("click", () => {
   if (playing) {
     //pause, if already playing
     playPauseBtn.classList.replace("fa-pause", "fa-play");
+    controls.style.gap = "20px";
     playing = false;
     audio.pause();
   } else {
     // play, if not playing
     playPauseBtn.classList.replace("fa-play", "fa-pause");
+    controls.style.gap = "22.5px";
     playing = true;
     audio.play();
   }
@@ -443,3 +447,36 @@ function setProgress(e) {
 }
 
 progressBar.addEventListener("click", setProgress);
+
+
+// VOLUME LEVELS FUNCTIONALITY
+
+volumeIcon.addEventListener("click", () => {
+  // Увеличиваем уровень громкости и меняем класс значка
+  volumeLevel = (volumeLevel + 1) % 4;
+  updateVolumeIcon();
+});
+
+
+function updateVolumeIcon() {
+  switch (volumeLevel) {
+    case 0:
+      volumeIcon.className = "fa-solid fa-volume-xmark"; // off volume
+      audio.volume = 0;
+      break;
+    case 1:
+      volumeIcon.className = "fa-solid fa-volume-off"; // low volume
+      audio.volume = 0.3;
+      break;
+    case 2:
+      volumeIcon.className = "fa-solid fa-volume-low"; // middle volume
+      audio.volume = 0.6;
+      break;
+    case 3:
+      volumeIcon.className = "fa-solid fa-volume-high"; // max volume
+      audio.volume = 1;
+      break;
+    default:
+      break;
+  }
+}
