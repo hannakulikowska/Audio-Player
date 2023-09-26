@@ -8,7 +8,8 @@ const menuBtn = document.querySelector('.menu-btn'),
   playPauseBtn = document.querySelector("#playpause"),
   nextBtn = document.querySelector("#next"),
   prevBtn = document.querySelector("#prev"),
-  shuffleBtn = document.querySelector("#shuffle");
+  shuffleBtn = document.querySelector("#shuffle"),
+  repeatBtn = document.querySelector("#repeat");
       
 
 let playing = false,
@@ -53,10 +54,14 @@ const songs = [
 ];
 
 
+// TWO PLAYER DISPLAY MODES
+
 menuBtn.addEventListener('click', () => {
   container.classList.toggle('active');
 });
 
+
+// INITIALIZATION
 
 function init() {
   updatePlaylist(songs);
@@ -64,6 +69,9 @@ function init() {
 }
 
 init();
+
+
+// PLAYLIST FUNCTIONALITY
 
 function updatePlaylist(songs) {
 
@@ -101,6 +109,7 @@ function updatePlaylist(songs) {
     playlistContainer.appendChild(tr);
 
 
+    // FAVORITES
 
     tr.addEventListener("click", (e) => {
 
@@ -133,6 +142,8 @@ function updatePlaylist(songs) {
 }
 
 
+// FORMAT SONG TIME
+
 function formatTime(time) {
   // format time like 2:03
   let minutes = Math.floor(time / 60);
@@ -143,7 +154,7 @@ function formatTime(time) {
 }
 
 
-// audio play functionality
+// PLAYBACK FUNCTIONALITY
 
 function loadSong(num) {
   // change all the title artist and times to current song
@@ -175,7 +186,7 @@ function loadSong(num) {
 }
 
 
-// play/pause prev/next functionality
+// PLAY / PAUSE FUNCTIONALITY
 playPauseBtn.addEventListener("click", () => {
   if (playing) {
     //pause, if already playing
@@ -192,6 +203,7 @@ playPauseBtn.addEventListener("click", () => {
 
 
 
+// PREV / NEXT FUNCTIONALITY
 
 function nextSong() {
   if (shuffle) {
@@ -269,7 +281,7 @@ currentFavorite.addEventListener("click", () => {
 });
 
 
-// Shuffle functionality
+// SHUFFLE FUNCTIONALITY
 
 function shuffleSongs() {
   // if 'shuffle' is currently set to 'false', change it to 'true', or vice versa
@@ -286,4 +298,57 @@ function getRandomSongIndex() {
   return Math.floor(Math.random() * songs.length);
 }
 
+
+// REPEAT FUNCTIONALITY
+
+function repeatSong() {
+  if (repeat === 0) {
+    // if 'repeat' is off, set it to 1, which means repeat the current song
+    repeat = 1;
+    repeatBtn.classList.add("active");
+  }
+  else if (repeat === 1) {
+    // if 'repeat' is 1, which means repeat the current song, set it to 2, which means repeat playlist
+    repeat = 2;
+    repeatBtn.classList.add("active");
+  }
+  else {
+    // turn off `repeat` and revise
+    repeat = 0;
+    repeatBtn.classList.remove("active");
+  }
+}
+
+
+repeatBtn.addEventListener("click", repeatSong);
+
+// if 'repeat' is turned on, on audio end
+audio.addEventListener("ended", () => {
+  if (repeat === 1) {
+    // if repeat current song
+    // again load the current song
+    loadSong(currentSong);
+    audio.play();
+  }
+  else if (repeat === 2) {
+    // if repeat playlist
+    // play next song
+    nextSong();
+    audio.play();
+  }
+  else {
+    // if `repeat` is turned off
+    // just play the entire playlist once, then stop
+    if (currentSong === songs.length - 1) {
+      // if it's the last song in the playlist, pause playback
+      audio.pause();
+      playPauseBtn.classList.replace("fa-pause", "fa-play");
+      playing = false;
+    } else {
+      // if not last continue to next
+      nextSong();
+      audio.play();
+    }
+  }
+});
 
