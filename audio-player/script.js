@@ -291,7 +291,7 @@ function prevSong() {
       currentSong = songs.length - 1;
     }
   }
-
+  
   loadSong(currentSong);
 
   // Playback the song, if it was playing
